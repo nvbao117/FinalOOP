@@ -154,26 +154,43 @@ public class Main {
 		System.out.printf("%-10s %-30s %-15s %-10s %n", "ID", "Họ Và Tên", "Số Điện Thoại" ,"Điểm tích lũy"); 
 		System.out.println("------------------------------------------------------"); 
 		// In thông tin khách hàng 
-		customers.forEach(customer -> System.out.printf("%-10s %-30s %-15s %-10s %n", customer.getId(), customer.getName(), customer.getPhone(), customer.getPoints()));
+		customers.forEach(customer -> System.out.printf("%-10s %-30s %-15s %-10s %n", 
+				customer.getId(), 
+				customer.getName(), 
+				customer.getPhone(), 
+				customer.getPoints()));
 	}
 
 //2.Liệt kê các sản phẩm có giá lớn hơn 30,000 VND.	
 	public static void cau2(double price) {
 		System.out.printf("%-10s %-30s %-15s %-10s %n", "Mã SP", "Tên Sản Phẩm", "Giá" ,"Tình trạng"); 
 		System.out.println("------------------------------------------------------");
-		products.stream().filter(e -> e.getPrice() > price).collect(Collectors.toList())
-		.forEach(e -> System.out.printf("%-10s %-30s %-15s %-10s %n", e.getId(), e.getName(), e.getPrice() , e.getStatus()));
+		products.stream()
+			.filter(e -> e.getPrice() > price)
+			.collect(Collectors.toList())
+			.forEach(e -> System.out.printf("%-10s %-30s %-15s %-10s %n", 
+					e.getId(), 
+					e.getName(), 
+					e.getPrice() , 
+					e.getStatus()));
 	}
 
 //	Hiển thị thông tin các hóa đơn cùng với tên khách hàng và tên nhân viên xử lý.
 	public static void cau3() {
-		System.out.printf("%-15s %-30s %-30s  %-15s %-30s %n ", "Mã Hóa Đơn","Tên Khách Hàng","Tên Nhân Viên","Tổng Tiền","Thời gian");
+		System.out.printf("%-15s %-30s %-30s  %-15s %-30s %n ", 
+				"Mã Hóa Đơn","Tên Khách Hàng","Tên Nhân Viên","Tổng Tiền","Thời gian");
 		System.out.println("------------------------------------------------------");
 		invoices.forEach(invoice -> {
 			Optional<String> customerName = customers.stream()
-					.filter(customer -> customer.getId() == invoice.getCustomerId()).findFirst().map(Customer::getName);
+					.filter(customer -> 
+						customer.getId() == invoice.getCustomerId())
+													.findFirst()
+													.map(Customer::getName);
 			Optional<String> employeeName = employees.stream()
-					.filter(employee -> employee.getId() == invoice.getEmployeeId()).findFirst().map(Employee::getName);
+					.filter(employee -> 
+						employee.getId() == invoice.getEmployeeId())
+													.findFirst()
+													.map(Employee::getName);
 			 
 			System.out.printf("%-15s %-30s %-30s %-15.2f %-30s %n", 
 					invoice.getId(), 
@@ -223,7 +240,8 @@ public class Main {
 
 //	6. Hiển thị thông tin các nhân viên đã làm việc từ ngày 01/01/2022 trở đi.
 	public static void cau6(Date startDate) {
-        System.out.printf("%-20s %-30s %-25s %-15s %-20s %n","Mã Nhân Viên","Họ Và Tên","Chức Vụ","Số Điện Thoại","Ngày Bắt Đầu");
+        System.out.printf("%-20s %-30s %-25s %-15s %-20s %n",
+        		"Mã Nhân Viên","Họ Và Tên","Chức Vụ","Số Điện Thoại","Ngày Bắt Đầu");
 		System.out.println("------------------------------------------------------");
 		employees.stream().filter(employee -> employee.getStartDate().after(startDate))
 				.forEach(employee -> System.out.printf("%-20s %-30s %-25s %-15s %-20s %n", 
@@ -236,7 +254,8 @@ public class Main {
 
 //7. Tìm tất cả các hóa đơn có tổng tiền lớn hơn 100,000 VND.
 	public static void cau7(double amount) {
-		System.out.printf("%-5s %-5s %-10s %-30s %-20s %-20s %-20s %n","MAHD","MAKH","MANV","Thời Gian","Tổng Tiền","Hình Thức TT","Số Tiền Nhận" );
+		System.out.printf("%-5s %-5s %-10s %-30s %-20s %-20s %-20s %n",
+				"MAHD","MAKH","MANV","Thời Gian","Tổng Tiền","Hình Thức TT","Số Tiền Nhận" );
 		System.out.println("------------------------------------------------------");
 		invoices.stream().filter(invoice -> invoice.getTotalAmount() > amount)
 		.forEach(invoice -> System.out.printf("%-5s %-5s %-10s %-30s %-20s %-20s %-20s %n",
@@ -251,7 +270,8 @@ public class Main {
 
 //	8. Liệt kê các khuyến mãi đang còn hiệu lực (trước ngày 31/12/2024).
 	public static void cau8(Date endDate) {
-		System.out.printf("%-10s %-20s %-50s %-30s %n", "MaKM","Thời Gian Hiệu Lực","Điều Kiện","Mức Giảm");
+		System.out.printf("%-10s %-20s %-50s %-30s %n", 
+				"MaKM","Thời Gian Hiệu Lực","Điều Kiện","Mức Giảm");
 		System.out.println("------------------------------------------------------");
 		promotions.stream().filter(promotion -> promotion.getEffectiveTime().before(endDate))
 				.forEach(promotion-> System.out.printf("%-10s %-20s %-50s %-30s %n",
@@ -338,12 +358,17 @@ public class Main {
 		System.out.printf("%-30s %-10s %-50s %n", "Họ Và Tên","Ma KM","Điều kiện");
 		System.out.println("------------------------------------------------------"); 
 		customerPromotions.stream().forEach(cp -> {
-			Optional<Customer> customer = customers.stream().filter(c -> c.getId() == cp.getCustomerId()).findFirst();
-			Optional<Promotion> promotion = promotions.stream().filter(p -> p.getId() == cp.getPromotionId())
+			Optional<Customer> customer = customers.stream()
+					.filter(c -> c.getId() == cp.getCustomerId()).findFirst();
+			Optional<Promotion> promotion = promotions.stream()
+					.filter(p -> p.getId() == cp.getPromotionId())
 					.findFirst();
 			if (customer.isPresent() && promotion.isPresent()) {
 				{
-					System.out.printf("%-30s %-10s %-50s %n",customer.get().getName(),promotion.get().getId(),promotion.get().getCondition());
+					System.out.printf("%-30s %-10s %-50s %n",
+							customer.get().getName(),
+							promotion.get().getId(),
+							promotion.get().getCondition());
 				}
 			}
 		});
@@ -362,35 +387,46 @@ public class Main {
 		System.out.println("------------------------------------------------------"); 
 		invoices.stream().filter(invoice -> invoiceDetails.stream()
 				.filter(detail -> detail.getInvoiceId() == invoice.getId())
-				.anyMatch(detail -> products.stream().filter(product -> product.getId() == detail.getProductId())
+				.anyMatch(detail -> products.stream()
+						.filter(product -> product.getId() == detail.getProductId())
 						.anyMatch(product -> product.getStatus().equalsIgnoreCase("Hết hàng"))))
-				.forEach(detail->System.out.printf("%-7s %-30s %-7s %n", detail.getId(),detail.getPaymentTime(),detail.getCustomerId()));
+				.forEach(detail->System.out.printf("%-7s %-30s %-7s %n", 
+						detail.getId(),
+						detail.getPaymentTime(),
+						detail.getCustomerId()));
 
 	}
 
 //	17.Tính tổng tiền của từng hóa đơn và tính toán tiền giảm giá nếu có (giảm giá theo khuyến mãi).
 	public static void cau17() {
-		System.out.printf("%-7s %-7s %-20s %-20s %-20s %n","MaHD","MaKH","Tổng Tiền","Giảm Giá","Tổng tiền sau giảm");
+		System.out.printf("%-7s %-7s %-20s %-20s %-20s %n",
+				"MaHD","MaKH","Tổng Tiền","Giảm Giá","Tổng tiền sau giảm");
 		System.out.println("------------------------------------------------------"); 
 		Map<Integer, Double> promotionMap = promotions.stream()
 				.collect(Collectors.toMap(Promotion::getId, Promotion::getDiscount));
 		invoices.forEach(invoice -> {
 			double totalAmount = invoice.getTotalAmount();
-			double discount = customerPromotions.stream().filter(cp -> cp.getCustomerId() == invoice.getCustomerId())
+			double discount = customerPromotions.stream()
+					.filter(cp -> cp.getCustomerId() == invoice.getCustomerId())
 					.mapToDouble(cp -> promotionMap.getOrDefault(cp.getPromotionId(), 0.0)).sum();
 			double finalAmount = totalAmount - (discount );
-			System.out.printf("%-7s %-7s %-20s %-20s %-20s %n",invoice.getId(),invoice.getCustomerId(),totalAmount,discount,finalAmount);
+			System.out.printf("%-7s %-7s %-20s %-20s %-20s %n",
+					invoice.getId(),
+					invoice.getCustomerId(),
+					totalAmount,discount,finalAmount);
 		});	
 	}
 
 //	18.Tìm tất cả các nhân viên đã xử lý hóa đơn có tổng tiền vượt quá 200,000 VND.
 	public static void cau18(double amount) {
-		System.out.printf("%-20s %-30s %-25s %-15s %-20s %n","Mã Nhân Viên","Họ Và Tên","Chức Vụ","Số Điện Thoại","Ngày Bắt Đầu");
+		System.out.printf("%-20s %-30s %-25s %-15s %-20s %n",
+				"Mã Nhân Viên","Họ Và Tên","Chức Vụ","Số Điện Thoại","Ngày Bắt Đầu");
 		System.out.println("------------------------------------------------------");
 		
 		employees.stream()
 				.filter(employee -> invoices.stream().filter(
-						invoice -> invoice.getEmployeeId() == employee.getId() && invoice.getTotalAmount() > amount)
+						invoice -> invoice.getEmployeeId() == employee.getId() 
+									&& invoice.getTotalAmount() > amount)
 						.count() > 0)
 				.forEach(e -> System.out.printf("%-20s %-30s %-25s %-15s %-20s %n", 
 						e.getId(),
@@ -406,12 +442,16 @@ public class Main {
 		System.out.println("------------------------------------------------------");
 		Map<String, Long> productOccurrences = invoiceDetails.stream()
 				.collect(Collectors.groupingBy(
-						detail -> products.stream().filter(product -> product.getId() == detail.getProductId())
-								.map(Product::getName).findFirst().orElse("Unknow"),
+						detail -> products.stream()
+								.filter(product -> product.getId() == detail.getProductId())
+								.map(Product::getName)
+								.findFirst()
+								.orElse("Unknow"),
 						Collectors.counting()));
 
-		productOccurrences.entrySet().stream().sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
-				.forEach(entry -> System.out.printf("%-35s %-15s %n",entry.getKey(),entry.getValue()));
+		productOccurrences.entrySet().stream()
+			.sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+			.forEach(entry -> System.out.printf("%-35s %-15s %n",entry.getKey(),entry.getValue()));
 	}
 
 //	20. Liệt kê các khách hàng có điểm tích lũy lớn hơn 150 và có tham gia chương trình khuyến mãi.
@@ -419,7 +459,8 @@ public class Main {
 		customers.stream()
 				.filter(customer -> customer.getPoints() > pointsThreshold
 						&& customerPromotions.stream().anyMatch(cp -> cp.getCustomerId() == customer.getId()))
-				.distinct().forEach(customer -> System.out
+				.distinct()
+				.forEach(customer -> System.out
 						.println("Khách hàng: " + customer.getName() + ", Điểm tích lũy: " + customer.getPoints()));
 	}
 }

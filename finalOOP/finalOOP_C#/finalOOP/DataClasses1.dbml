@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="FastFoodManagement" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=Bao;Initial Catalog=FastFoodManagement;Integrated Security=True;Trust Server Certificate=True" SettingsObjectName="finalOOP.Properties.Settings" SettingsPropertyName="FastFoodManagementConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.CUSTOMER" Member="CUSTOMERs">
+    <Type Name="CUSTOMER">
+      <Column Name="MAKH" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="HoTen" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="SDT" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="DiemTichLuy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="CUSTOMER_CUSTOMER_PROMOTION" Member="CUSTOMER_PROMOTIONs" ThisKey="MAKH" OtherKey="MAKH" Type="CUSTOMER_PROMOTION" />
+      <Association Name="CUSTOMER_INVOICE" Member="INVOICEs" ThisKey="MAKH" OtherKey="MAKH" Type="INVOICE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CUSTOMER_PROMOTION" Member="CUSTOMER_PROMOTIONs">
+    <Type Name="CUSTOMER_PROMOTION">
+      <Column Name="MAKH" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MAKM" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="CUSTOMER_CUSTOMER_PROMOTION" Member="CUSTOMER" ThisKey="MAKH" OtherKey="MAKH" Type="CUSTOMER" IsForeignKey="true" />
+      <Association Name="PROMOTION_CUSTOMER_PROMOTION" Member="PROMOTION" ThisKey="MAKM" OtherKey="MAKM" Type="PROMOTION" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EMPLOYEE" Member="EMPLOYEEs">
+    <Type Name="EMPLOYEE">
+      <Column Name="MANV" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="HoTen" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="ChucVu" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SDT" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="NgayBatDau" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="EMPLOYEE_INVOICE" Member="INVOICEs" ThisKey="MANV" OtherKey="MANV" Type="INVOICE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.INVOICE" Member="INVOICEs">
+    <Type Name="INVOICE">
+      <Column Name="MAHD" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MAKH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MANV" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianTT" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TongTien" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="HinhThucTT" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SoTienNhan" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Association Name="INVOICE_INVOICE_DETAIL" Member="INVOICE_DETAILs" ThisKey="MAHD" OtherKey="MAHD" Type="INVOICE_DETAIL" />
+      <Association Name="CUSTOMER_INVOICE" Member="CUSTOMER" ThisKey="MAKH" OtherKey="MAKH" Type="CUSTOMER" IsForeignKey="true" />
+      <Association Name="EMPLOYEE_INVOICE" Member="EMPLOYEE" ThisKey="MANV" OtherKey="MANV" Type="EMPLOYEE" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.INVOICE_DETAIL" Member="INVOICE_DETAILs">
+    <Type Name="INVOICE_DETAIL">
+      <Column Name="MAHD" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MASP" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SoLuong" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ThanhTien" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Association Name="INVOICE_INVOICE_DETAIL" Member="INVOICE" ThisKey="MAHD" OtherKey="MAHD" Type="INVOICE" IsForeignKey="true" />
+      <Association Name="PRODUCT_INVOICE_DETAIL" Member="PRODUCT" ThisKey="MASP" OtherKey="MASP" Type="PRODUCT" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PRODUCT" Member="PRODUCTs">
+    <Type Name="PRODUCT">
+      <Column Name="MASP" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenSP" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="DonGia" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="TinhTrang" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="HinhAnh" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="PRODUCT_INVOICE_DETAIL" Member="INVOICE_DETAILs" ThisKey="MASP" OtherKey="MASP" Type="INVOICE_DETAIL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PROMOTION" Member="PROMOTIONs">
+    <Type Name="PROMOTION">
+      <Column Name="MAKM" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ThoiGianHL" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DieuKien" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="MucGiamGia" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Association Name="PROMOTION_CUSTOMER_PROMOTION" Member="CUSTOMER_PROMOTIONs" ThisKey="MAKM" OtherKey="MAKM" Type="CUSTOMER_PROMOTION" />
+    </Type>
+  </Table>
+</Database>

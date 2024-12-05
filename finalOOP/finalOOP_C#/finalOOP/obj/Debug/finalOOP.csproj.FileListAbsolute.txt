@@ -1,0 +1,7 @@
+C:\Users\PC MSI\source\repos\finalOOP\finalOOP\obj\Debug\finalOOP.csproj.AssemblyReference.cache
+C:\Users\PC MSI\source\repos\finalOOP\finalOOP\obj\Debug\finalOOP.csproj.CoreCompileInputs.cache
+C:\Users\PC MSI\source\repos\finalOOP\finalOOP\bin\Debug\finalOOP.exe.config
+C:\Users\PC MSI\source\repos\finalOOP\finalOOP\bin\Debug\finalOOP.exe
+C:\Users\PC MSI\source\repos\finalOOP\finalOOP\bin\Debug\finalOOP.pdb
+C:\Users\PC MSI\source\repos\finalOOP\finalOOP\obj\Debug\finalOOP.exe
+C:\Users\PC MSI\source\repos\finalOOP\finalOOP\obj\Debug\finalOOP.pdb

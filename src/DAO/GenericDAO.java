@@ -7,25 +7,46 @@ import java.util.List;
 import model.*;
 
 public class GenericDAO {
-	private Connection connection;
+	private Connection connection; 
+	// Biến thuộc tính lưu trữ đối tượng kết nối cơ sở dữ liệu (Connection)
 
 	public GenericDAO(Connection connection) {
-		this.connection = connection;
+	    // Hàm khởi tạo của lớp GenericDAO
+	    // Nhận đối tượng Connection được truyền từ bên ngoài
+	    this.connection = connection; 
+	    // Gán đối tượng Connection cho biến thuộc tính của lớp
 	}
 
+
 	public List<Customer> getAllCustomers() throws SQLException {
-		String query = "SELECT * FROM customer";
-		List<Customer> customers = new ArrayList<Customer>();
-		try (PreparedStatement pstmt = connection.prepareStatement(query); ResultSet rs = pstmt.executeQuery()) {
-			while (rs.next()) {
-				customers.add(new Customer(rs.getInt("MAKH"), rs.getString("HoTen"), rs.getString("SDT"),
-						rs.getInt("DiemTichLuy")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		}
-		return customers;
+	    // Câu lệnh SQL để lấy tất cả các bản ghi từ bảng "customer"
+	    String query = "SELECT * FROM customer";
+
+	    // Danh sách để lưu các đối tượng Customer được lấy từ cơ sở dữ liệu
+	    List<Customer> customers = new ArrayList<Customer>();
+
+	    // Khối try-with-resources để tự động đóng PreparedStatement và ResultSet sau khi dùng
+	    try (PreparedStatement pstmt = connection.prepareStatement(query); 
+	         ResultSet rs = pstmt.executeQuery()) {
+	        
+	        // Lặp qua từng bản ghi trong ResultSet
+	        while (rs.next()) {
+	            // Tạo đối tượng Customer từ dữ liệu của bản ghi hiện tại
+	            customers.add(new Customer(
+	                rs.getInt("MAKH"),       // Mã khách hàng
+	                rs.getString("HoTen"),   // Họ tên khách hàng
+	                rs.getString("SDT"),     // Số điện thoại
+	                rs.getInt("DiemTichLuy") // Điểm tích lũy
+	            ));
+	        }
+	    } catch (SQLException e) {
+	        // Xử lý ngoại lệ khi truy vấn
+	        e.printStackTrace(); // In thông tin lỗi ra console
+	        throw e;             // Ném lại ngoại lệ để xử lý ở lớp gọi
+	    }
+
+	    // Trả về danh sách các khách hàng
+	    return customers;
 	}
 
 	public List<Employee> getAllEmployees() throws SQLException {
